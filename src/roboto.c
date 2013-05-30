@@ -12,7 +12,7 @@
 #define MY_UUID { 0x91, 0x41, 0xB6, 0x28, 0xBC, 0x89, 0x49, 0x8E, 0xB1, 0x47, 0x04, 0x9F, 0x49, 0xC0, 0x99, 0xAD }
 
 PBL_APP_INFO(MY_UUID,
-             "Roboto Weather", "Martin Rosinski",
+             "SBRoboto", "Sean Bedford",
              1, 6, /* App version */
              RESOURCE_ID_IMAGE_MENU_ICON,
              APP_INFO_WATCH_FACE);
@@ -134,16 +134,16 @@ void handle_minute_tick(AppContextRef ctx, PebbleTickEvent *t)
     string_format_time(minute_text, sizeof(minute_text), ":%M", t->tick_time);
     time_layer_set_text(&time_layer, hour_text, minute_text);
 	
-	if(!located || !(t->tick_time->tm_min % 15))
+	if(!located || !(t->tick_time->tm_min % 30))
 	{
-		//Every 15 minutes, request updated weather
+		//Every 30 minutes, request updated weather
 		http_location_request();
 	}
-	else
-	{
-		//Every minute, ping the phone
-		link_monitor_ping();
-	}
+	// else
+	// {
+	// 	//Every minute, ping the phone
+	// 	link_monitor_ping();
+	// }
 }
 
 
@@ -165,7 +165,7 @@ void handle_init(AppContextRef ctx)
 
     res_d = resource_get_handle(RESOURCE_ID_FONT_ROBOTO_CONDENSED_21);
     res_h = resource_get_handle(RESOURCE_ID_FONT_ROBOTO_BOLD_SUBSET_49);
-    res_m = resource_get_handle(RESOURCE_ID_FONT_ROBOTO_THIN_SUBSET_49);
+    res_m = resource_get_handle(RESOURCE_ID_FONT_ROBOTO_LIGHT_SUBSET_49);
 
     font_date = fonts_load_custom_font(res_d);
     font_hour = fonts_load_custom_font(res_h);
@@ -243,7 +243,7 @@ void request_weather() {
 	}
 	// Build the HTTP request
 	DictionaryIterator *body;
-	HTTPResult result = http_out_get("http://www.zone-mr.net/api/weather.php", WEATHER_HTTP_COOKIE, &body);
+	HTTPResult result = http_out_get("http://weather.seanbedford.com/weather.php", WEATHER_HTTP_COOKIE, &body);
 	if(result != HTTP_OK) {
 		weather_layer_set_icon(&weather_layer, WEATHER_ICON_NO_WEATHER);
 		return;

@@ -36,19 +36,19 @@ void link_monitor_handle_failure(int error)
 			text_layer_set_text(&date_layer, itoa(error));
 #endif
 	}
-	
-	if(__linkStatus == LinkStatusOK)
-	{
-		//The link has just failed, notify the user
-		// Vibe pattern: ON, OFF, ON, ...
-		static const uint32_t const segments[] = { 200, 100, 200, 100, 200, 100, 500 };
-		VibePattern pat = {
-			.durations = segments,
-			.num_segments = ARRAY_LENGTH(segments),
-		};
-	
-		vibes_enqueue_custom_pattern(pat);
-	}
+	// 
+	// if(__linkStatus == LinkStatusOK)
+	// {
+	// 	//The link has just failed, notify the user
+	// 	// Vibe pattern: ON, OFF, ON, ...
+	// 	static const uint32_t const segments[] = { 200, 100, 200, 100, 200, 100, 500 };
+	// 	VibePattern pat = {
+	// 		.durations = segments,
+	// 		.num_segments = ARRAY_LENGTH(segments),
+	// 	};
+	// 
+	// 	vibes_enqueue_custom_pattern(pat);
+	// }
 	
 	__linkStatus = LinkStatusFailed;
 }
